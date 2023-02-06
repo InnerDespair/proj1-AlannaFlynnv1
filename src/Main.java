@@ -31,16 +31,19 @@ public class Main {
         Secrets secrets = om.readValue(key, Secrets.class);
         */
 
-        //makes the secrets method
+        //declares a secrets method so we can use it
         Secrets secrets = new Secrets();
 
         //declares the url
         URL url = urlMaker(secrets.getUrl() + "forms/" + secrets.getHash() + "/entries.json?sort=EntryId&sortDirection=DESC");
 
+        //uses Base64 object and uses encoder to make string (dont know what it does exactly), basically stores the "username:password" for input into the popup
         String encoding = Base64.getEncoder().encodeToString((secrets.getapikey()+":"+secrets.getHash()).getBytes("UTF-8"));
 
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        connection.setRequestMethod("POST");
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection(); //opens connection to url
+
+        //i do not know what this does
+        connection.setRequestMethod("GET");
         connection.setDoInput(true);
         connection.setDoOutput (true);
         connection.setRequestProperty  ("Authorization", "Basic " + encoding);
@@ -53,6 +56,7 @@ public class Main {
             json.append((char) c);
         }
         //System.out.println(json.toString());
+        //System.out.println(url);
 
         //for (String line; (line = in.readLine()) != null;) {
           //  System.out.println(line);
